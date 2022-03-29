@@ -5,7 +5,6 @@
 
 // 引入axios
 import axios from "axios"
-
 // 创建axios实例对象
 const request = axios.create({
   // 请求的公共接口地址
@@ -15,7 +14,6 @@ const request = axios.create({
 })
 
 // 创建请求拦截器
-
 request.interceptors.request.use(function (config) {
   return config;
 }, function (error) {

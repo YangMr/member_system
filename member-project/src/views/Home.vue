@@ -12,25 +12,14 @@
 <script>
 // @ is an alias to /src
 import HelloWorld from '@/components/HelloWorld.vue';
-import axios from "axios"
+
 export default {
   name: 'Home',
   components: {
     HelloWorld,
   },
   created(){
-    axios({
-      url : `/api/list`,
-      method : "GET"
-    }).then(response=>{
-      console.log(response)
-    })
-    axios({
-      url : `/api/list`,
-      method : "GET"
-    }).then(response=>{
-      console.log(response)
-    })
+
   }
 };
 </script>
