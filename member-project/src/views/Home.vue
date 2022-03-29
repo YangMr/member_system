@@ -20,7 +20,13 @@ export default {
   },
   created(){
     axios({
-      url : `${process.env.VUE_APP_BASE_API}/api/list`,
+      url : `/api/list`,
+      method : "GET"
+    }).then(response=>{
+      console.log(response)
+    })
+    axios({
+      url : `/api/list`,
       method : "GET"
     }).then(response=>{
       console.log(response)
