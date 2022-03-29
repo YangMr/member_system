@@ -41,3 +41,56 @@ git commit -m "feta:初始化项目"
 
 git push origin master
 ```
+
+### 1.6 对项目进行分析
+
+## 二、对项目进行基础性配置
+
+### 2.1 初始化项目
+
+#### 2.1.1 修改标题
+
+#### 2.1.2 修改ICON图标
+
+#### 2.1.3 通过vue.config.js对服务器进行一些基础性配置
+
+- 配置项目启动的端口号
+- 配置了主机名
+- 配置是否启动https协议
+- 是否自动浏览器
+- 关闭eslint语法检测
+- 项目打包时不生成.map后缀名的文件
+
+```
+/**
+ * @author YangLing
+ * @date 2022/3/29 10:30 AM
+ */
+module.exports = {
+  // 服务器进行配置
+  devServer : {
+    // 配置端口号
+    port : 9999,
+    // 配置主机名
+    host : "localhost",
+    // 配置是否开启https协议
+    https : false,
+    // 配置项目启动时是否自动打开浏览器
+    open : true
+  },
+  // 关闭eslint语法检测
+  lintOnSave : false,
+  // 打包时不会生成 .map 文件，加快打包速度
+  productionSourceMap : false
+}
+```
+
+### 2.2 安装项目所需要的依赖
+
+- element-ui (安装)
+- axios (安装)
+- day.js (后面用到在安装)
+
+#### 2.2.1 使用element-ui,测试element-ui能否使用
+
+#### 2.2.2 引入axios,测试axios能够使用
