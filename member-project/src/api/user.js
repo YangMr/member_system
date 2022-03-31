@@ -21,7 +21,7 @@ const userLogin = (data) => {
  * @returns {AxiosPromise}
  */
 const getUserInfo = () => {
-  // TODO 调用获取用户信息接口我们需要通过请求头 将token发送给后台 我们到时候在拦截器里面进行处理
+  // TODO 调用获取用户信息接口我们需要通过请求头 将token发送给后台 我们到时候在拦截器里面进行处理 已完成
   return request({url : "/user/info/admin", method : "GET"})
 }
 
@@ -49,7 +49,7 @@ const changeUserPass = (data) => {
  * @returns {AxiosPromise}
  */
 const userLogout = () => {
-  // TODO 调用获退出登录接口我们需要通过请求头 将token发送给后台 我们到时候在拦截器里面进行处理
+  // TODO 调用获退出登录接口我们需要通过请求头 将token发送给后台 我们到时候在拦截器里面进行处理  已完成
   return request({url : "/user/logout", method : "POST"})
 }
 

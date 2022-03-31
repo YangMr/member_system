@@ -1,18 +1,25 @@
 <template>
   <div class="layout-wrapper">
-    <div class="header">头部区域</div>
-    <div class="aside">
-      <p v-for="(item,index) in 200">侧边栏{{index}}</p>
-    </div>
-    <div class="main">
-      <p v-for="(item,index) in 200">主体内容{{index}}</p>
-    </div>
+    <!--头部-->
+    <app-header></app-header>
+    <!--左侧-->
+    <app-navbar></app-navbar>
+    <!--主体内容-->
+    <app-main></app-main>
   </div>
 </template>
 
 <script>
+import AppHeader from "./AppHeader"
+import AppNavbar from "./AppNavbar"
+import AppMain from "./AppMain"
 export default {
-  name: "Layout"
+  name: "Layout",
+  components : {
+    AppHeader,
+    AppNavbar,
+    AppMain
+  }
 }
 </script>
 
@@ -30,7 +37,7 @@ export default {
   top : 0;
   right : 0;
 }
-.aside{
+.navbar{
   background-color: #545c64;
   width: 230px;
   top : 50px;
@@ -43,7 +50,6 @@ export default {
   position: absolute;
   left: 230px;
   top: 50px;
-  background-color: red;
   right :0;
   overflow-y: auto;
   bottom:0;

@@ -51,7 +51,8 @@ export default {
           // 直接跳转到主页码？不行、登录完成之后， 调用获取用户信息接口， 拿到获取用户信息之后，才可以跳转到主页
           const response = await this.$store.dispatch("handleUserInfo")
           if(response.flag){
-              // TODO 跳转到主页
+            // TODO 跳转到主页
+            this.$router.push("/")
           }
         }
       })
