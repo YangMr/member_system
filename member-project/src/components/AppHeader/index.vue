@@ -121,7 +121,7 @@ export default {
 
 <style scoped>
 .header-center{
-  width: 1280px;
+  width: 1350px;
   height: 100%;
   margin: 0 auto;
 }
