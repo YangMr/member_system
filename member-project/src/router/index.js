@@ -55,7 +55,7 @@ const routes = [
       {
         path : "/",
         name : "goods",
-        component: () => import('../views/goods'),
+        component: () => import('../views/goods')
       }
     ]
   },
@@ -110,5 +110,6 @@ const routes = [
 const router = new VueRouter({
   routes,
 });
+
 
 export default router;

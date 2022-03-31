@@ -15,6 +15,9 @@ export default new Vuex.Store({
     userInfo: getUserInfo() ? getUserInfo() : '',
   },
   getters : {
+    getToken : function (state){
+      return state.token
+    },
     getUserInfo : function (state){
       return state.userInfo
     }
