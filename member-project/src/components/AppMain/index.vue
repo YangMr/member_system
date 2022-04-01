@@ -1,16 +1,24 @@
 <template>
   <div class="main">
-    <div v-if="$route.path !== '/index'">我是面包屑导航</div>
+    <breadcrumb v-show="$route.path !== '/index'"></breadcrumb>
     <router-view></router-view>
   </div>
 </template>
 
 <script>
+import Breadcrumb from "../common/Breadcrumb";
 export default {
-  name: "index"
+  name: "index",
+  data(){
+    return {
+
+    }
+  },
+  components : {
+    Breadcrumb
+  }
 }
 </script>
 
 <style scoped>
-
 </style>

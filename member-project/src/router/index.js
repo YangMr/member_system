@@ -32,6 +32,9 @@ const routes = [
         path : "/",
         name : "member",
         component: () => import('../views/member'),
+        meta : {
+          title : "会员管理"
+        }
       }
     ]
   },
@@ -44,6 +47,9 @@ const routes = [
         path : "/",
         name : "supplier",
         component: () => import('../views/supplier'),
+        meta : {
+          title : "供应商管理"
+        }
       }
     ]
   },
@@ -55,7 +61,10 @@ const routes = [
       {
         path : "/",
         name : "goods",
-        component: () => import('../views/goods')
+        component: () => import('../views/goods'),
+        meta : {
+          title : "商品管理"
+        }
       }
     ]
   },
@@ -68,6 +77,9 @@ const routes = [
         path : "/",
         name : "staff",
         component: () => import('../views/staff'),
+        meta : {
+          title : "员工管理"
+        }
       }
     ]
   }

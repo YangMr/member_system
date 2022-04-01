@@ -53,5 +53,6 @@ export default {
   right :0;
   overflow-y: auto;
   bottom:0;
+  padding : 10px;
 }
 </style>
