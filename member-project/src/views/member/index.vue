@@ -1,5 +1,28 @@
 <template>
   <div class="member-wrapper">
+    <!--会员查询-->
+    <el-form :inline="true" :model="searchMemberData" ref="searchMember" class="search-member-from">
+      <el-form-item prop="cardNum">
+        <el-input v-model.trim="searchMemberData.cardNum" placeholder="会员卡号"></el-input>
+      </el-form-item>
+      <el-form-item prop="name">
+        <el-input v-model.trim="searchMemberData.name" placeholder="会员姓名"></el-input>
+      </el-form-item>
+      <el-form-item prop="payType">
+        <el-select v-model="searchMemberData.payType" placeholder="支付类型">
+          <el-option :label="item.name" v-for="(item,index) in payType" :key="index" :value="item.type"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item prop="birthday">
+        <el-date-picker value-format="yyyy-MM-dd" v-model="searchMemberData.birthday" type="date" placeholder="出生日期"></el-date-picker>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="handleSearchMember">查询</el-button>
+        <el-button type="primary">新增</el-button>
+        <el-button @click="handleSearchReset">重置</el-button>
+      </el-form-item>
+    </el-form>
+
     <!--会员列表-->
     <el-table
       :data="memberListData"
@@ -68,8 +91,14 @@ export default {
       page : 1,
       size : 10,
       total : 0,
-      searchMemberData : {},
-      memberListData : []
+      searchMemberData : {
+        cardNum : "",
+        name : "",
+        payType : "",
+        birthday : ""
+      },
+      memberListData : [],
+      payType
     }
   },
   created() {
@@ -111,11 +140,25 @@ export default {
     handleSizeChange(size){
       this.size = size
       this.initMemberList()
+    },
+    /**
+     * 会员查询
+     */
+    handleSearchMember(){
+      this.initMemberList()
+    },
+    /**
+     * 会员查询表单重置
+     */
+    handleSearchReset(){
+      this.$refs["searchMember"].resetFields()
     }
   }
 }
 </script>
 
 <style scoped>
-
+.search-member-from{
+  margin-top: 20px;
+}
 </style>
