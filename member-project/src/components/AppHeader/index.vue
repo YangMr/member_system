@@ -85,7 +85,6 @@ export default {
   },
   computed : {
     getUserInfo(){
-      console.log(this.$store.getters.getUserInfo)
       return this.$store.getters.getUserInfo || "";
     }
   },
@@ -93,7 +92,6 @@ export default {
     handleCommand(command){
       switch (command){
         case "changePass" :
-          console.log("调用修改密码方法")
           this.handleShowDiaLog()
           break;
         case "logout" :
@@ -111,7 +109,6 @@ export default {
       const submitPassData = {password : this.changePassForm.newPassword, userId : this.getUserInfo.id }
       const response = await UserModel.changeUserPass(submitPassData)
       if(response.flag){
-        // this.handleCloseDiaLog()
         this.$store.dispatch("handleLogout")
       }
     }
