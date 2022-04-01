@@ -3,8 +3,12 @@
 </template>
 
 <script>
+import MemberModel from "../../api/member"
 export default {
-  name: "index"
+  name: "index",
+  created() {
+
+  }
 }
 </script>
 
