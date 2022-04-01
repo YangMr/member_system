@@ -45,7 +45,7 @@
       <el-table-column label="操作" width="150">
         <template slot-scope="scope">
           <el-button size="mini">编辑</el-button>
-          <el-button size="mini" type="danger" >删除</el-button>
+          <el-button size="mini" type="danger" @click="handleDeleteMember(scope.row)">删除</el-button>
         </template>
       </el-table-column>
 
@@ -121,8 +121,6 @@ export default {
         const {rows,total} = response.data
         this.memberListData = rows
         this.total = total
-        console.log(rows)
-        console.log(total)
       }
     },
     /**
@@ -152,6 +150,33 @@ export default {
      */
     handleSearchReset(){
       this.$refs["searchMember"].resetFields()
+    },
+    /**
+     * 会员删除功能
+     * @param row
+     */
+    handleDeleteMember(row){
+      const id = row.id
+      this.$confirm('确认删除这条记录吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(async () => {
+        const response = await MemberModel.deleteMember(id)
+        if(response.flag){
+          this.initMemberList()
+          this.$message({
+            type: 'success',
+            message: '删除成功!'
+          });
+        }
+
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
+      });
     }
   }
 }
