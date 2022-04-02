@@ -12,7 +12,7 @@ import request from "../utils/request"
  * @returns {AxiosPromise}
  */
 const userLogin = (data) => {
-  return request({url : "/user/login", method : "POST", data})
+  return request({url : "/admin/login", method : "POST", data})
 }
 
 /**
@@ -22,7 +22,7 @@ const userLogin = (data) => {
  */
 const getUserInfo = () => {
   // TODO 调用获取用户信息接口我们需要通过请求头 将token发送给后台 我们到时候在拦截器里面进行处理 已完成
-  return request({url : "/user/info/admin", method : "GET"})
+  return request({url : "/admin/getUserInfo", method : "GET"})
 }
 
 /**
@@ -50,7 +50,7 @@ const changeUserPass = (data) => {
  */
 const userLogout = () => {
   // TODO 调用获退出登录接口我们需要通过请求头 将token发送给后台 我们到时候在拦截器里面进行处理  已完成
-  return request({url : "/user/logout", method : "POST"})
+  return request({url : "/admin/logout", method : "POST"})
 }
 
 

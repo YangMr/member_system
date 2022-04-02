@@ -9,7 +9,7 @@
       </div>
       <el-dropdown @command="handleCommand">
         <span class="el-dropdown-link">
-          {{getUserInfo.name}}<i class="el-icon-arrow-down el-icon--right"></i>
+          {{getUserInfo.username}}<i class="el-icon-arrow-down el-icon--right"></i>
         </span>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item command="changePass">修改密码</el-dropdown-item>

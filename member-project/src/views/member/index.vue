@@ -32,7 +32,11 @@
       <el-table-column type="index" label="序号" width="60"></el-table-column>
       <el-table-column prop="cardNum" label="会员卡号"></el-table-column>
       <el-table-column prop="name" label="会员姓名"></el-table-column>
-      <el-table-column prop="birthday" label="会员生日"></el-table-column>
+      <el-table-column prop="birthday" label="会员生日">
+        <template slot-scope="scope">
+          {{$Time.timeFormat(scope.row.birthday)}}
+        </template>
+      </el-table-column>
       <el-table-column prop="phone" label="手机号码" width="110"></el-table-column>
       <el-table-column prop="integral" label="可用积分"></el-table-column>
       <el-table-column prop="money" label="开卡金额"></el-table-column>
@@ -61,6 +65,7 @@
       layout="total, sizes, prev, pager, next, jumper"
       :total="total">
     </el-pagination>
+
 
     <!--新增会员弹窗-->
     <el-dialog title="新增会员" :visible.sync="dialogAddFormVisible" width="500px">
@@ -141,19 +146,19 @@
 import MemberModel from "../../api/member"
 const payType = [
   {
-    type : 1,
+    type : 0,
     name : "现金"
   },
   {
-    type : 2,
+    type : 1,
     name : "微信"
   },
   {
-    type : 3,
+    type : 2,
     name : "支付宝"
   },
   {
-    type : 4,
+    type : 3,
     name : "银行卡"
   }
 ]
@@ -225,10 +230,11 @@ export default {
      */
     async initMemberList(){
       const response = await MemberModel.getMemberList(this.page,this.size, this.searchMemberData)
-      if(response.flag){
-        const {rows,total} = response.data
+      console.log(response.msg)
+      if(response.error_code == 0){
+        const {count,rows} = response.msg
         this.memberListData = rows
-        this.total = total
+        this.total = count
       }
     },
     /**
@@ -271,7 +277,7 @@ export default {
         type: 'warning'
       }).then(async () => {
         const response = await MemberModel.deleteMember(id)
-        if(response.flag){
+        if(response.error_code == 0){
           this.initMemberList()
           this.$message({
             type: 'success',
@@ -299,7 +305,7 @@ export default {
       this.$refs["addMemberForm"].validate(async valid=>{
         if(!valid) return
         const response = await MemberModel.addMember(this.addMemberForm)
-        if(response.flag){
+        if(response.error_code == 0){
           this.$message("新增成功")
           this.dialogAddFormVisible = false
           this.$refs["addMemberForm"].resetFields()
@@ -315,8 +321,13 @@ export default {
     async handleOpenEditDialog(row){
       const memberId = row.id
       const response = await MemberModel.findMember(memberId)
-      if(response.flag){
-          this.editMemberForm = response.data
+      if(response.error_code == 0){
+
+          const value= response.msg.payType
+          const obj = payType.find(item=>item.type == value)
+
+          this.editMemberForm = response.msg
+          this.editMemberForm.payType = obj.name
       }
       this.dialogEditFormVisible = true
     },
@@ -328,8 +339,7 @@ export default {
       this.$refs["editMemberForm"].validate(async valid =>{
         if(!valid) return
         const response = await MemberModel.editMember(memberId,this.editMemberForm)
-        console.log(response)
-        if(response.flag){
+        if(response.error_code == 0){
           this.$message("更新成功")
           this.dialogEditFormVisible = false
           this.$refs["editMemberForm"].resetFields()

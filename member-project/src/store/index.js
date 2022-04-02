@@ -70,7 +70,7 @@ export default new Vuex.Store({
           // 调用获取用户信息接口
           const result = await UserModel.getUserInfo();
           // 将获取到的用户信息保存到vuex
-          commit('setUserInfo', result.data);
+          commit('setUserInfo', result.msg);
           // 将获取成功用户信息返回出去
           resolve(result);
         } catch (err) {
@@ -86,7 +86,7 @@ export default new Vuex.Store({
     async handleLogout({commit}){
       try {
         const result = await UserModel.userLogout()
-        if(result.flag){
+        if(result.error_code === 0){
           // 删除本地的token以及用户信息
           removeTokenAndInfo()
           // 清空vuex里面存储的token以及用户信息

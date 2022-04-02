@@ -59,7 +59,7 @@ router.beforeEach(async (to,from,next)=>{
       }else{ // 5.2.2 用户信息不存在
         // 调用获取用户信息接口，重新获取用户信息
         const response =await store.dispatch("handleUserInfo")
-        if(response.flag){  // 获取用户信息成功
+        if(response.error_code == 0){  // 获取用户信息成功
           next()
         }else{  // 获取用户信息失败
           next("/login")

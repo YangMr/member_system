@@ -52,7 +52,7 @@ request.interceptors.request.use(function (config) {
   loading.open()
   // 判断token 是否存在，如果存在，则通过请求头发送给后台
   if(getToken()){
-    config.headers.token = getToken()
+    config.headers.authorization ="Bearer " + getToken()
   }
   return config;
 }, function (error) {

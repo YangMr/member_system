@@ -47,10 +47,10 @@ export default {
         //当表单校验不通过是，程序不在继续往下执行
         if(!valid) return;
         const response = await this.$store.dispatch("handleUserLogin",this.loginForm)
-        if(response.flag){
+        console.log(response)
+        if(response.code == 1){
           // TODO 跳转到主页
           this.$router.push("/")
-
         }
       })
     }
