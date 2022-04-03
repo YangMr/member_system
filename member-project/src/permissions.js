@@ -53,7 +53,8 @@ router.beforeEach(async (to,from,next)=>{
     if(to.path === "/login"){  //5.1 已登录的情况下进入登录页面
       next(from.path)   // 5.1.1  进入的是跳转之前的页面
     }else{ // 5.2 进入的不是登录页面
-      if(userInfo.length > 0){  // 5.2.1 判断用户信息是否存在，
+      console.log(userInfo)
+      if(userInfo && userInfo.length > 0){  // 5.2.1 判断用户信息是否存在，
         // 存在 -- 进入要进入的页面
         next()
       }else{ // 5.2.2 用户信息不存在

@@ -35,7 +35,11 @@ function setUserInfo(info){
  * @returns {string}
  */
 function getUserInfo(){
-  return JSON.parse(localStorage.getItem(USER_INFO_KEY))
+  const userInfo = localStorage.getItem(USER_INFO_KEY)
+  if(userInfo instanceof Object){
+    return  JSON.parse(localStorage.getItem(USER_INFO_KEY))
+  }
+  return ""
 }
 
 /**

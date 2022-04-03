@@ -219,8 +219,11 @@ export default {
   },
   filters : {
     filterPayType(value){
-      const obj = payType.find(item=>item.type == value)
-      return obj.name
+      if(Number(value) && value < 4){
+        const obj = payType.find(item=>item.type == value)
+        return obj.name
+      }
+      return value
     }
   },
   methods : {
