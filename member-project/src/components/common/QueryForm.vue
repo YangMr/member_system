@@ -11,7 +11,8 @@
             <el-option v-for="(item,index) in item.options" :key="index" :label="item.name" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item v-if="item.type == 'action'">
+
+        <el-form-item v-if="item.type == 'action'" :width="item.width">
           <el-button v-for="(item,index) in item.list" :key="index" :type="item.type" @click="handleFormAction(item.action)">{{item.text}}</el-button>
         </el-form-item>
       </template>
@@ -39,6 +40,7 @@ export default {
         this.$emit("handleFormAction",{action,searchModelForm : this.searchModelForm})
       }else if(action == "reset"){
         this.$refs["searchModelForm"].resetFields()
+        this.$emit("handleReset")
       }
     },
   }

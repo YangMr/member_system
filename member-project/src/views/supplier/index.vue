@@ -1,7 +1,6 @@
 <template>
   <div class="supplier-wrapper">
-    <QueryForm @handleFormAction="handleFormAction" :formColumns="formColumns"></QueryForm>
-
+    <QueryForm @handleReset="handleReset" @handleFormAction="handleFormAction" :formColumns="formColumns"></QueryForm>
     <base-table @handleAction="handleAction" @handleSizeChange="handleSizeChange" @handleCurrentChange="handleCurrentChange"  :pager="pager" :supplier-table-data="supplierTableData" :columns="columns"></base-table>
   </div>
 </template>
@@ -107,7 +106,8 @@ export default {
             }
           ]
         }
-      ]
+      ],
+      searchModelForm : {}
     }
   },
   created() {
@@ -120,7 +120,6 @@ export default {
      */
     async initSupplierList(){
       const response = await SupplierModel.getSupplierList(this.pager.currentPage, this.pager.pageSize, this.searchModelForm)
-      console.log(response)
       if(response.error_code === 0){
         const {count, rows} = response.msg
         this.supplierTableData =rows
@@ -137,7 +136,29 @@ export default {
     // 编辑供应商的方法
     handleEditSupplier(id){console.log("edit 1")},
     // 删除供应商的方法
-    handleDeleteSupplier(id){console.log("delete 2")},
+    handleDeleteSupplier(id){
+      this.$confirm('确认删除这条记录吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(async () => {
+        const response = await SupplierModel.deleteSupplier(id)
+        if(response.error_code == 0){
+          this.$message({
+            type: 'success',
+            message: '删除成功!'
+          });
+          this.pager.currentPage = 1
+          this.initSupplierList()
+        }
+
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
+      });
+    },
     // 条数发生改变触发的方法
     handleSizeChange(size){
       console.log(size)
@@ -153,6 +174,7 @@ export default {
     // 搜索框查询按钮方法
     handleFormAction({action,searchModelForm}){
       if(action == "search"){
+        this.searchModelForm = searchModelForm
         this.handleSearchData()
       }else if(action == "add"){
         this.handleAddData()
@@ -162,7 +184,7 @@ export default {
     },
     // 查询
     handleSearchData(){
-      console.log("search")
+      this.initSupplierList()
     },
     // 新增
     handleAddData(){
@@ -170,7 +192,8 @@ export default {
     },
     // 重置
     handleReset(){
-      console.log("reset")
+      this.searchModelForm = {}
+      this.initSupplierList()
     }
   },
   components : {
