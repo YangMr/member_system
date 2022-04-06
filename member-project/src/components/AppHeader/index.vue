@@ -1,22 +1,20 @@
 <template>
   <div class="header">
-    <div class="header-center">
-      <div class="header-logo">
-        <img class="logo-img" width="25px" src="http://vue.mengxuegu.com/img/logo.7156be27.png" alt="">
-        <router-link class="logo-title" to="/">
-          星空会员管理系统
-        </router-link>
-      </div>
-      <el-dropdown @command="handleCommand">
-        <span class="el-dropdown-link">
-          {{getUserInfo.username}}<i class="el-icon-arrow-down el-icon--right"></i>
-        </span>
-        <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item command="changePass">修改密码</el-dropdown-item>
-          <el-dropdown-item command="logout">退出登录</el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown>
+    <div class="header-logo">
+      <img class="logo-img" width="25px" src="http://vue.mengxuegu.com/img/logo.7156be27.png" alt="">
+      <router-link class="logo-title" to="/">
+        星空会员管理系统
+      </router-link>
     </div>
+    <el-dropdown @command="handleCommand">
+      <span class="el-dropdown-link">
+        {{getUserInfo.username}}<i class="el-icon-arrow-down el-icon--right"></i>
+      </span>
+      <el-dropdown-menu slot="dropdown">
+        <el-dropdown-item command="changePass">修改密码</el-dropdown-item>
+        <el-dropdown-item command="logout">退出登录</el-dropdown-item>
+      </el-dropdown-menu>
+    </el-dropdown>
 
     <el-dialog title="修改密码" width="400px" :visible.sync="dialogFormVisible">
       <el-form :model="changePassForm" :rules="rules">
@@ -117,13 +115,14 @@ export default {
 </script>
 
 <style scoped>
-.header-center{
-  width: 1350px;
-  height: 100%;
-  margin: 0 auto;
-}
+/*.header-center{*/
+/*  width: 1350px;*/
+/*  height: 100%;*/
+/*  margin: 0 auto;*/
+/*}*/
 .header-logo{
   float: left;
+  margin-left : 20px;
 }
 .logo-img{
   vertical-align: middle;
@@ -139,5 +138,6 @@ export default {
   float: right;
   color : #fff;
   cursor: pointer;
+  margin-right : 20px;
 }
 </style>

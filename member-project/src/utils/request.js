@@ -8,6 +8,8 @@ import axios from "axios"
 
 import { Loading } from 'element-ui';
 
+import store from "../store"
+
 /**
  * loading加载方法， 定义全局loading加载的时候，频繁请求的时候，loading会开启多次， loading效果就会出现问题
  * 解决方法： 使用单例模式， 每次loading开启的时候只产生一个loading实例对象
@@ -65,6 +67,11 @@ request.interceptors.request.use(function (config) {
 request.interceptors.response.use(function (response) {
   // 关闭loading
   loading.close()
+  console.log(response.data.code)
+  // token的过期处理
+  if(response.data.code == "-1"){
+    store.dispatch("handleLogout")
+  }
   return response.data;
 }, function (error) {
   // 关闭loading

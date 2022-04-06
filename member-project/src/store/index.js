@@ -84,21 +84,21 @@ export default new Vuex.Store({
      * @returns {Promise<void>}
      */
     async handleLogout({commit}){
-      try {
-        const result = await UserModel.userLogout()
-        if(result.error_code === 0){
-          // 删除本地的token以及用户信息
+      // try {
+      //   const result = await UserModel.userLogout()
+      //   if(result.error_code === 0){
+      //     // 删除本地的token以及用户信息
           removeTokenAndInfo()
           // 清空vuex里面存储的token以及用户信息
           commit("clearTokenAndInfo")
           // 跳转到登录页
           router.push("/login")
-        }else{
-          Message("退出登录失败")
-        }
-      }catch (err) {
-          console.log(err)
-      }
+      //   }else{
+      //     Message("退出登录失败")
+      //   }
+      // }catch (err) {
+      //     console.log(err)
+      // }
     }
   },
   modules: {

@@ -13,6 +13,7 @@ Vue.prototype.$Time = Time
 Vue.config.productionTip = false;
 
 import "./permissions"
+import "./utils/test"
 
 
 new Vue({

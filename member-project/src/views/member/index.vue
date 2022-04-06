@@ -233,7 +233,6 @@ export default {
      */
     async initMemberList(){
       const response = await MemberModel.getMemberList(this.page,this.size, this.searchMemberData)
-      console.log(response.msg)
       if(response.error_code == 0){
         const {count,rows} = response.msg
         this.memberListData = rows
