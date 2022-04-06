@@ -1,7 +1,7 @@
 <template>
   <div class="supplier-wrapper">
     <QueryForm @handleReset="handleReset" @handleFormAction="handleFormAction" :formColumns="formColumns"></QueryForm>
-    <base-table @handleAction="handleAction" @handleSizeChange="handleSizeChange" @handleCurrentChange="handleCurrentChange"  :pager="pager" :supplier-table-data="supplierTableData" :columns="columns"></base-table>
+    <base-table @handleAction="handleAction" @handleSizeChange="handleSizeChange" @handleCurrentChange="handleCurrentChange"  :pager="pager" :table-data="supplierTableData" :columns="columns"></base-table>
     <Dialog ref="dialog" :dialog-columns="dialogColumns" :diaLogForm="diaLogForm" @handleDialogAction="handleDialogAction"></Dialog>
   </div>
 </template>

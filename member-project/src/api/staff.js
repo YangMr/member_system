@@ -9,7 +9,7 @@ const addStaff = (data)=>{
   return request({url : "/staff", method : "POST", data})
 }
 
-const editStaff = (id)=>{
+const editStaff = (id,data)=>{
   return request({url : `/staff/${id}`, method : "PUT", data})
 }
 

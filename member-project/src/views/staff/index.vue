@@ -1,7 +1,8 @@
 <template>
   <div class="staff-wrapper">
     <QueryForm @handleReset="handleReset" @handleFormAction="handleFormAction" :formColumns="formColumns"></QueryForm>
-    <base-table @handleAction="handleAction" @handleSizeChange="handleSizeChange" @handleCurrentChange="handleCurrentChange"  :pager="pager" :supplier-table-data="supplierTableData" :columns="columns"></base-table>
+    <base-table @handleAction="handleAction" @handleSizeChange="handleSizeChange" @handleCurrentChange="handleCurrentChange"  :pager="pager" :table-data="staffTableData" :columns="columns"></base-table>
+    <Dialog ref="dialog" :dialog-columns="dialogColumns" :diaLogForm="diaLogForm" @handleDialogAction="handleDialogAction"></Dialog>
   </div>
 </template>
 
@@ -9,6 +10,7 @@
 import StaffModel from "../../api/staff"
 import BaseTable from "../../components/common/BaseTable"
 import QueryForm from "../../components/common/QueryForm"
+import Dialog from "../../components/common/Dialog"
 export default {
   name: "index",
   data(){
@@ -19,7 +21,7 @@ export default {
         total : 0,
         pageSizes : [2,10,15,50],
       },
-      supplierTableData : [],
+      staffTableData : [],
       columns : [
         {
           label : "序号",
@@ -73,19 +75,14 @@ export default {
       ],
       formColumns : [
         {
-          prop : "name",
-          placeholder : "供应商名称",
+          prop : "username",
+          placeholder : "账号",
           type : "input"
         },
         {
 
-          prop : "linkman",
-          placeholder : "联系人",
-          type : "input"
-        },
-        {
-          prop : "mobile",
-          placeholder : "联系电话",
+          prop : "name",
+          placeholder : "姓名",
           type : "input"
         },
         {
@@ -112,34 +109,99 @@ export default {
           ]
         }
       ],
-      searchModelForm : {}
+      searchModelForm : {},
+      dialogColumns : {
+        ref : "diaLogForm",
+        title : "供应商新增",
+        dialogFormVisible : false,
+        width : "500px",
+        rules : {
+          username : [{required : true, message : "账号不能为空", trigger : "blur"}],
+          name : [{required : true, message : "姓名不能为空", trigger : "blur"}]
+        },
+        labelWidth : "100px",
+        formList : [
+          {
+            prop : "username",
+            label : "账号",
+            type : "input"
+          },
+          {
+            prop : "name",
+            label : "姓名",
+            type : "input"
+          },
+          {
+            prop : "age",
+            label : "年龄",
+            type : "input"
+          },
+          {
+            prop : "mobile",
+            label : "电话",
+            type : "input"
+          },
+          {
+            prop : "salary",
+            label : "薪酬",
+            type : "input"
+          },
+          {
+            prop : "entryDate",
+            label : "入职时间",
+            type : "date"
+          }
+        ],
+        buttonGroup : {
+          type : "action",
+          list : [
+            {
+              action : "cancel",
+              text : "取消",
+              type : "default",
+            },
+            {
+              action : "confirm",
+              text : "确定",
+              type : "primary",
+            }
+          ]
+        }
+
+      },
+      diaLogForm : {},
     }
   },
   created() {
-    this.initSupplierList()
+    this.initList()
   },
   methods :{
     /**
-     * 获取供应商列表
+     * 获取员工列表
      * @returns {Promise<void>}
      */
-    async initSupplierList(){
+    async initList(){
       const response = await StaffModel.getStaffList(this.pager.currentPage, this.pager.pageSize, this.searchModelForm)
       if(response.error_code === 0){
         const {count, rows} = response.msg
-        this.supplierTableData =rows
+        this.staffTableData =rows
+        console.log(this.staffTableData)
         this.pager.total = count
       }
     },
     handleAction({action,row}){
       if(action == "edit"){
-        this.handleEditSupplier(row.id)
+        this.handleEditDialog(row.id)
       }else if(action == "delete"){
         this.handleDeleteSupplier(row.id)
       }
     },
-    // 编辑供应商的方法
-    handleEditSupplier(id){console.log("edit 1")},
+    // 员工编辑的方法
+    handleEditDialog(id){
+      this.dialogColumns.dialogFormVisible = true
+      this.dialogColumns.title = "员工编辑"
+      this.handleFind(id)
+    },
     // 删除供应商的方法
     handleDeleteSupplier(id){
       this.$confirm('确认删除这条记录吗?', '提示', {
@@ -154,7 +216,7 @@ export default {
             message: '删除成功!'
           });
           this.pager.currentPage = 1
-          this.initSupplierList()
+          this.initList()
         }
 
       }).catch(() => {
@@ -168,13 +230,12 @@ export default {
     handleSizeChange(size){
       console.log(size)
       this.pager.pageSize = size
-      this.initSupplierList()
+      this.initList()
     },
     // 页码发生变化会触发的方法
     handleCurrentChange(page){
-      console.log(page)
       this.pager.currentPage = page
-      this.initSupplierList()
+      this.initList()
     },
     // 搜索框查询按钮方法
     handleFormAction({action,searchModelForm}){
@@ -182,28 +243,82 @@ export default {
         this.searchModelForm = searchModelForm
         this.handleSearchData()
       }else if(action == "add"){
-        this.handleAddData()
+        this.handleOpenDialog()
       }else if(action == "reset"){
         this.handleReset()
       }
     },
     // 查询
     handleSearchData(){
-      this.initSupplierList()
+      this.pager.currentPage = 1
+      this.initList()
     },
     // 新增
-    handleAddData(){
-      console.log("add")
+    handleOpenDialog(){
+      this.dialogColumns.dialogFormVisible = true
+      this.dialogColumns.title = "员工新增"
     },
-    // 重置
+    // 查询表单重置
     handleReset(){
       this.searchModelForm = {}
-      this.initSupplierList()
+      this.initList()
+    },
+    /**
+     * dialog弹窗提交数据方法
+     */
+    handleSubmitData(){
+      this.$refs["dialog"].$refs["diaLogForm"].validate( async valid => {
+        const id = this.diaLogForm.id
+        if(!id){
+          // 新增提交数据
+          const response = await StaffModel.addStaff(this.diaLogForm)
+          if(response.error_code == 0){
+            this.handleDialogReset()
+            this.initList()
+          }
+        }else{
+          console.log("123")
+          // 编辑提交数据
+          const response = await StaffModel.editStaff(id,this.diaLogForm)
+          if(response.error_code == 0){
+            this.handleDialogReset()
+            this.initList()
+          }
+        }
+      })
+    },
+    /**
+     * 隐藏并重置dialog弹窗方法
+     */
+    handleDialogReset(){
+      this.dialogColumns.dialogFormVisible = false
+      this.$refs["dialog"].$refs["diaLogForm"].resetFields()
+    },
+    /**
+     * 点击弹窗按钮告诉你点击的是哪一个的方法
+     * @param action
+     */
+    handleDialogAction(action){
+      if(action == 'confirm'){
+        this.handleSubmitData()
+      }else if(action == 'cancel'){
+        this.handleDialogReset()
+      }
+    },
+    /**
+     * 获取单个员工的数据
+     */
+    async handleFind(id){
+      const response = await StaffModel.findStaff(id)
+      if(response.error_code == "0"){
+        this.diaLogForm = response.msg
+      }
     }
   },
   components : {
     BaseTable,
-    QueryForm
+    QueryForm,
+    Dialog
   }
 }
 </script>

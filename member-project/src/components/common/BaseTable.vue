@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-table
-      :data="supplierTableData"
+      :data="TableData"
       border
       style="width: 100%">
       <template v-for="(item,index) in columns">
@@ -34,7 +34,7 @@
 export default {
   name: "BaseTable",
   props : {
-    supplierTableData : {
+    TableData : {
       type : Array,
       default : []
     },
